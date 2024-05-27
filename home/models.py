@@ -17,6 +17,7 @@ class blog(models.Model):
     status = models.BooleanField(default=False)
     view_count = models.IntegerField(default=0)
     like_count = models.IntegerField(default=0)
+    publish_date = models.DateTimeField(blank=False, default=timezone.now)
 
     @property
     def is_past_due(self):

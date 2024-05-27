@@ -29,9 +29,7 @@ def contact(request):
 
 
 def blog(request):
-    blogs = models.blog.objects.filter(
-        date_published__lte=timezone.datetime(2025, 11, 21, 8, 22, 40)
-    )
+    blogs = models.blog.objects.filter(publish_date__lte=timezone.now())
     context = {"blogs": blogs}
     return render(request, "blog.html", context=context)
 
