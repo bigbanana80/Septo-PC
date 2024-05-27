@@ -10,3 +10,15 @@ def index(request):
     blog.save()
     context = {"blog": blog}
     return render(request, "index.html", context)
+
+
+def cart(request):
+    return render(request, "cart.html")
+
+
+def account(request):
+    return render(request, "account.html")
+
+
+def products(request):
+    return render(request, "products.html")
