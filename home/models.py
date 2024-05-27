@@ -1,4 +1,6 @@
 from django.db import models
+from datetime import datetime
+from django.utils import timezone
 
 
 # Create your models here.
@@ -13,6 +15,10 @@ class blog(models.Model):
     status = models.BooleanField(default=False)
     view_count = models.IntegerField(default=0)
     like_count = models.IntegerField(default=0)
+
+    @property
+    def is_past_due(self):
+        return timezone.now() > self.date_published
 
     def __str__(self) -> str:
         return self.title
