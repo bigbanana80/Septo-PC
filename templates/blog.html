@@ -1,5 +1,10 @@
 {% extends "base.html" %} {% load static %} {% block content %}
-
-<p>blog page which is empty for now</p>
-
-{% endblock content %}
+<!-- //// -->
+{% for blog in blogs %}
+<br />
+<img src="{{blog.image.url}}" alt="" width="450" height="400" />
+<h1>{{blog.title}}</h1>
+<p>{{blog.short_content}}</p>
+<a href="blog/{{blog.title}}">Read More</a>
+<br />
+{% endfor %} {% endblock content %}

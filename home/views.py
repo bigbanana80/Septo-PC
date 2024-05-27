@@ -5,11 +5,7 @@ from django.utils import timezone
 
 # Create your views here.
 def index(request):
-    blog = models.blog.objects.get(title="blog 1")
-    blog.view_count += 1
-    blog.save()
-    context = {"blog": blog}
-    return render(request, "index.html", context)
+    return render(request, "index.html")
 
 
 def cart(request):
@@ -33,4 +29,16 @@ def contact(request):
 
 
 def blog(request):
-    return render(request, "blog.html")
+    blogs = models.blog.objects.filter(
+        date_published__lte=timezone.datetime(2025, 11, 21, 8, 22, 40)
+    )
+    context = {"blogs": blogs}
+    return render(request, "blog.html", context=context)
+
+
+def blog_detail(request, title):
+    blog = models.blog.objects.get(title=title)
+    blog.view_count += 1
+    blog.save()
+    context = {"blog": blog}
+    return render(request, "blog_detail.html", context=context)
