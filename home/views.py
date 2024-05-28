@@ -29,7 +29,17 @@ def contact(request):
 
 
 def blog(request):
-    blogs = models.blog.objects.filter(publish_date__lte=timezone.now())
+    all_blogs = models.blog.objects.all()
+    valid_blogs = models.blog.objects.filter(publish_date__lte=timezone.now())
+    for blog in all_blogs:
+        if blog in valid_blogs:
+            blog.status = True
+            blog.save()
+        else:
+            blog.status = False
+            blog.save()
+
+    blogs = models.blog.objects.filter(status=True)
     context = {"blogs": blogs}
     return render(request, "blog.html", context=context)
 
