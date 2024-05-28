@@ -41,32 +41,42 @@ def blog_detail(request, title):
     blog.view_count += 1
     blog.save()
 
-    all_blog = models.blog.objects.all()
+    all_valid_blog = models.blog.objects.filter(
+        publish_date__lte=timezone.now(), status=True
+    )
     ids = []
-    for i in all_blog:
+    for i in all_valid_blog:
         ids.append(i.id)
     print(ids)
     if blog.id in ids:
         if blog.id - 1 in ids and blog.id + 1 in ids:
             next_blog = models.blog.objects.get(
-                id=blog.id + 1, status=True, publish_date__lte=timezone.now()
+                id=blog.id + 1,
+                status=True,
             )
             prev_blog = models.blog.objects.get(
-                id=blog.id - 1, status=True, publish_date__lte=timezone.now()
+                id=blog.id - 1,
+                status=True,
             )
         elif blog.id + 1 in ids:
             next_blog = models.blog.objects.get(
-                id=blog.id + 1, status=True, publish_date__lte=timezone.now()
+                id=blog.id + 1,
+                status=True,
             )
             prev_blog = None
         elif blog.id - 1 in ids:
             next_blog = None
             prev_blog = models.blog.objects.get(
-                id=blog.id - 1, status=True, publish_date__lte=timezone.now()
+                id=blog.id - 1,
+                status=True,
             )
         else:
             next_blog = None
             prev_blog = None
 
-    context = {"blog": blog, "next": next_blog, "prev": prev_blog}
+    context = {
+        "blog": blog,
+        "next": next_blog,
+        "prev": prev_blog,
+    }
     return render(request, "blog_detail.html", context=context)
