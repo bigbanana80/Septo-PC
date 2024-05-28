@@ -1,4 +1,4 @@
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render, HttpResponse, get_object_or_404
 from . import package, models
 from django.utils import timezone
 
@@ -29,23 +29,15 @@ def contact(request):
 
 
 def blog(request):
-    all_blogs = models.blog.objects.all()
-    valid_blogs = models.blog.objects.filter(publish_date__lte=timezone.now())
-    for blog in all_blogs:
-        if blog in valid_blogs:
-            blog.status = True
-            blog.save()
-        else:
-            blog.status = False
-            blog.save()
-
-    blogs = models.blog.objects.filter(status=True)
+    blogs = models.blog.objects.filter(publish_date__lte=timezone.now(), status=True)
     context = {"blogs": blogs}
     return render(request, "blog.html", context=context)
 
 
 def blog_detail(request, title):
-    blog = models.blog.objects.get(title=title)
+    blog = get_object_or_404(
+        models.blog, title=title, publish_date__lte=timezone.now(), status=True
+    )
     blog.view_count += 1
     blog.save()
     context = {"blog": blog}
