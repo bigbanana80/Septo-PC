@@ -40,5 +40,33 @@ def blog_detail(request, title):
     )
     blog.view_count += 1
     blog.save()
-    context = {"blog": blog}
+
+    all_blog = models.blog.objects.all()
+    ids = []
+    for i in all_blog:
+        ids.append(i.id)
+    print(ids)
+    if blog.id in ids:
+        if blog.id - 1 in ids and blog.id + 1 in ids:
+            next_blog = models.blog.objects.get(
+                id=blog.id + 1, status=True, publish_date__lte=timezone.now()
+            )
+            prev_blog = models.blog.objects.get(
+                id=blog.id - 1, status=True, publish_date__lte=timezone.now()
+            )
+        elif blog.id + 1 in ids:
+            next_blog = models.blog.objects.get(
+                id=blog.id + 1, status=True, publish_date__lte=timezone.now()
+            )
+            prev_blog = None
+        elif blog.id - 1 in ids:
+            next_blog = None
+            prev_blog = models.blog.objects.get(
+                id=blog.id - 1, status=True, publish_date__lte=timezone.now()
+            )
+        else:
+            next_blog = None
+            prev_blog = None
+
+    context = {"blog": blog, "next": next_blog, "prev": prev_blog}
     return render(request, "blog_detail.html", context=context)

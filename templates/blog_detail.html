@@ -5,5 +5,19 @@
 <h1>{{blog.title}}</h1>
 <p>{{blog.content}}</p>
 <p>Views: {{blog.view_count}}</p>
-
-{% endblock content %}
+<br />
+{% if prev != null %}
+<div>
+  <h2>Prev Post</h2>
+  <img src="{{prev.image.url}}" alt="" width="100" height="150" />
+  <h4>{{prev.title}}</h4>
+  <a href={% url "blog_detail"  prev.title  %} style="color: blue;">Read More</a>
+</div>
+{% endif %} {% if next != null %}
+<div>
+  <h2>Next Post</h2>
+  <img src="{{next.image.url}}" alt="" width="100" height="150" />
+  <h4>{{next.title}}</h4>
+  <a href={% url "blog_detail"   next.title %} style="color: blue;">Read More</a>
+</div>
+{% endif %} {% endblock content %}
