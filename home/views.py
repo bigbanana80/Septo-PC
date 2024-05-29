@@ -35,45 +35,26 @@ def blog(request):
 
 
 def blog_detail(request, title):
+    valid_blogs = models.blog.objects.filter(
+        publish_date__lte=timezone.now(), status=True
+    )
     blog = get_object_or_404(
         models.blog, title=title, publish_date__lte=timezone.now(), status=True
     )
     blog.view_count += 1
     blog.save()
-
-    all_valid_blog = models.blog.objects.filter(
-        publish_date__lte=timezone.now(), status=True
-    )
-    ids = []
-    for i in all_valid_blog:
-        ids.append(i.id)
-    print(ids)
-    if blog.id in ids:
-        if blog.id - 1 in ids and blog.id + 1 in ids:
-            next_blog = models.blog.objects.get(
-                id=blog.id + 1,
-                status=True,
-            )
-            prev_blog = models.blog.objects.get(
-                id=blog.id - 1,
-                status=True,
-            )
-        elif blog.id + 1 in ids:
-            next_blog = models.blog.objects.get(
-                id=blog.id + 1,
-                status=True,
-            )
-            prev_blog = None
-        elif blog.id - 1 in ids:
+    try:
+        next_blog = blog.get_next_by_publish_date()
+        if next_blog not in valid_blogs:
             next_blog = None
-            prev_blog = models.blog.objects.get(
-                id=blog.id - 1,
-                status=True,
-            )
-        else:
-            next_blog = None
+    except models.blog.DoesNotExist:
+        next_blog = None
+    try:
+        prev_blog = blog.get_previous_by_publish_date()
+        if prev_blog not in valid_blogs:
             prev_blog = None
-
+    except models.blog.DoesNotExist:
+        prev_blog = None
     context = {
         "blog": blog,
         "next": next_blog,
