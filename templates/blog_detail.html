@@ -8,18 +8,22 @@
 <br />
 <div class="row">
   {% if prev != null %}
-  <div class="col-3">
+  <div class="col-4">
     <h2>Prev Post</h2>
     <img src="{{prev.image.url}}" alt="" width="100" height="150" />
     <h4>{{prev.title}}</h4>
     <a href={% url "blog_detail"  prev.title  %} style="color: blue;">Read More</a>
   </div>
+  {% else %}
+  <div class="col-4"></div>
   {% endif %} {% if next != null %}
-  <div class="col-3">
+  <div class="col-4">
     <h2>Next Post</h2>
     <img src="{{next.image.url}}" alt="" width="100" height="150" />
     <h4>{{next.title}}</h4>
     <a href={% url "blog_detail"   next.title %} style="color: blue;">Read More</a>
   </div>
+  {% else %}
+  <div class="col-4"></div>
   {% endif %} {% endblock content %}
 </div>
