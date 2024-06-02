@@ -4,7 +4,7 @@ from . import models
 
 class blog(admin.ModelAdmin):
     # settings here
-    list_display = ["id", "title", "short_content", "date_published"]
+    list_display = ["id", "title", "date_published"]
 
 
 # Register your models here.

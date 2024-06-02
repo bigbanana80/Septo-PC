@@ -21,7 +21,7 @@
       <div class="container">
         <div class="navbar">
           <div class="logo">
-            <a href="home"
+            <a href={% url "home" %}
               ><img src={% static "img/logo.png" %} alt="logo" width="125px"
               /></a
             >
@@ -53,13 +53,13 @@
             <h3>Download Our App</h3>
             <p>Download App for Android and ios mobile phone.</p>
             <div class="app-logo">
-              <img src={% static "img/play-store.png" %} />
+              <img src={% static "img/play-store.png" %} alt="img" />
               <br />
-              <img src={% static "img/app-store.png" %} />
+              <img src={% static "img/app-store.png" %} alt="img" />
             </div>
           </div>
           <div class="footer-col-2">
-            <img src={% static "img/logo-white.png" %} />
+            <img src={% static "img/logo-white.png" %} alt="img" />
             <p>
               Our Purpose Is To Sustainably Make the Pleasure and Benefits of
               Sports Accessible to the Many.

@@ -7,7 +7,7 @@ from django.utils import timezone
 class blog(models.Model):
     title = models.CharField(max_length=100)
     content = models.TextField()
-    short_content = models.TextField(default="")
+    # short_content = models.TextField(default="")
     image = models.ImageField(upload_to="blog_tumb", null=True)
     category = models.CharField(max_length=255)
     tags = models.CharField(max_length=255)
