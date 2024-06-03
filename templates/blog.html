@@ -13,7 +13,7 @@
 </div>
 <!-- the blogs -->
 <div class="blog">
-{% for blog in blogs %}
+<!-- {% for blog in blogs %}
 <br />
 <img src="{{blog.image.url}}" alt="" width="450" height="400" />
 <h1>{{blog.title}}</h1>
@@ -21,6 +21,40 @@
 <p>views: {{blog.view_count}}</p>
 <a href="{% url "blog_detail" title=blog.title %}" >Read More</a>
 <br />
+{% endfor %} -->
+{% for page in page_obj %}
+    <br />
+    <img src="{{page.image.url}}" alt="" width="450" height="400" />
+    <h1>{{page.title}}</h1>
+    <p>{{page.content|truncatewords:25}}</p>
+    <p>views: {{page.view_count}}</p>
+    <a href="{% url "blog_detail" title=page.title %}" >Read More</a>
+    <br />
 {% endfor %}
+
+<div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+        {% endif %}
+
+        {% for i in page_num %}
+          {% if i == page_obj.number %}
+          <a href="?page={{i}}" id="current-page">{{i}}</a>
+            {% else %}
+            <a href="?page={{i}}">{{i}}</a>
+          {% endif %}
+        {% endfor %}
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
 </div>
  {% endblock content %}

@@ -1,11 +1,20 @@
 from django.shortcuts import render, HttpResponse, get_object_or_404
 from . import package, models
 from django.utils import timezone
+from django.core.paginator import Paginator
 
 
 # Create your views here.
 def index(request):
-    return render(request, "index.html")
+    blogs = models.blog.objects.filter(
+        publish_date__lte=timezone.now(), status=True
+    ).order_by("-id")[:3:-1]
+    context = {
+        "last_post1": blogs[0],
+        "last_post2": blogs[1],
+        "last_post3": blogs[2],
+    }
+    return render(request, "index.html", context=context)
 
 
 def cart(request):
@@ -32,7 +41,13 @@ def blog(request):
     blogs = models.blog.objects.filter(
         publish_date__lte=timezone.now(), status=True
     ).order_by("publish_date")
-    context = {"blogs": blogs}
+    paginator = Paginator(blogs, 3)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+    context = {
+        "page_obj": page_obj,
+        "page_num": [x + 1 for x in range(paginator.num_pages)],
+    }
     return render(request, "blog.html", context=context)
 
 

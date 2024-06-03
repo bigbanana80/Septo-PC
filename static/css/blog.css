@@ -4,3 +4,7 @@
 .detail-header {
   display: flex;
 }
+
+#current-page {
+  color: red;
+}
