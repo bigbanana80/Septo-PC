@@ -1,4 +1,4 @@
-{% extends "base.html" %} {% load static %} {% block content %}
+{% extends "base.html" %} {% load static %} {% load home_tags %} {% block content %}
 <link rel="stylesheet" href={% static "css/index.css" %} >
 <div class="row">
   <div class="col-2">
@@ -195,45 +195,53 @@
     <label for="button-1"></label>
     <input type="radio" id="button-2" name="controls"/>
     <label for="button-2"></label>
-    <input type="radio" id="button-3" name="controls"/>
-    <label for="button-3"></label>
     <label for="button-1" class="arrows" id="arrow-1">></label>
     <label for="button-2" class="arrows" id="arrow-2">></label>
-    <label for="button-3" class="arrows" id="arrow-3">></label>
     <div id="slideshow-inner">
         <ul>
             <li id="slide1">
-                <img src="{{last_post1.image.url}}" />
-                <div class="description">
-                    <input type="checkbox" id="show-description-1"/>
-                    <label for="show-description-1" class="show-description-label">I</label>
-                    <div class="description-text">
-                        <h2>{{last_post1.title}}</h2>
-                        <p>{{last_post1.content|truncatewords:20}}</p>
-                    </div>
-                </div>
+              <div class="row">
+                <span class="col-3">
+                  <img src="{{last_post1.image.url}}" />
+                  <h2>{{last_post1.title}}</h2>
+                  <p>{{last_post1.content|truncatewords:20}}</p>
+
+                </span>
+                <span class="col-3">
+                  <img src="{{last_post2.image.url}}" />
+                  <h2>{{last_post2.title}}</h2>
+                  <p>{{last_post2.content|truncatewords:20}}</p>
+
+                </span>
+                <span class="col-3">
+                  <img src="{{last_post3.image.url}}" />
+                  <h2>{{last_post3.title}}</h2>
+                  <p>{{last_post3.content|truncatewords:20}}</p>   
+                </span>
+
+              </div>
             </li>
             <li id="slide2">
-                <img src="{{last_post2.image.url}}" />
-                <div class="description">
-                    <input type="checkbox" id="show-description-2"/>
-                    <label for="show-description-2" class="show-description-label">I</label>
-                    <div class="description-text">
-                      <h2>{{last_post2.title}}</h2>
-                      <p>{{last_post2.content|truncatewords:20}}</p>
-                    </div>
-                </div>
-            </li>
-            <li id="slide3">
-                <img src="{{last_post3.image.url}}" />
-                <div class="description">
-                    <input type="checkbox" id="show-description-3"/>
-                    <label for="show-description-3" class="show-description-label">I</label>
-                    <div class="description-text">
-                      <h2>{{last_post3.title}}</h2>
-                      <p>{{last_post3.content|truncatewords:20}}</p>
-                    </div>
-                </div>
+              <div class="row">
+                <span class="col-3">
+                  <img src="{{last_post4.image.url}}" />
+                  <h2>{{last_post4.title}}</h2>
+                  <p>{{last_post4.content|truncatewords:20}}</p>
+
+                </span>
+                <span class="col-3">
+                  <img src="{{last_post5.image.url}}" />
+                  <h2>{{last_post5.title}}</h2>
+                  <p>{{last_post5.content|truncatewords:20}}</p>
+
+                </span>
+                <span class="col-3">
+                  <img src="{{last_post6.image.url}}" />
+                  <h2>{{last_post6.title}}</h2>
+                  <p>{{last_post6.content|truncatewords:20}}</p>   
+                </span>
+
+              </div>
             </li>
         </ul>
     </div>

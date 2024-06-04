@@ -8,11 +8,14 @@ from django.core.paginator import Paginator
 def index(request):
     blogs = models.blog.objects.filter(
         publish_date__lte=timezone.now(), status=True
-    ).order_by("-id")[:3:-1]
+    ).order_by("-publish_date")[:6:]
     context = {
         "last_post1": blogs[0],
         "last_post2": blogs[1],
         "last_post3": blogs[2],
+        "last_post4": blogs[3],
+        "last_post5": blogs[4],
+        "last_post6": blogs[5],
     }
     return render(request, "index.html", context=context)
 
@@ -40,13 +43,14 @@ def contact(request):
 def blog(request):
     blogs = models.blog.objects.filter(
         publish_date__lte=timezone.now(), status=True
-    ).order_by("publish_date")
+    ).order_by("-publish_date")
     paginator = Paginator(blogs, 3)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
+    page_num = [x + 1 for x in range(paginator.num_pages)]
     context = {
         "page_obj": page_obj,
-        "page_num": [x + 1 for x in range(paginator.num_pages)],
+        "page_num": page_num,
     }
     return render(request, "blog.html", context=context)
 
