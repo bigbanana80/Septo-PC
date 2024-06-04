@@ -26,6 +26,12 @@
   margin-top: 20px;
   position: relative;
 }
+#slideshow-wrap h2 {
+  color: white;
+}
+#slideshow-wrap a {
+  color: white;
+}
 
 #slideshow-inner {
   width: 100%;
