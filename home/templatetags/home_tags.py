@@ -13,11 +13,7 @@ def latest_post():
         "-publish_date"
     )[:6:1]
     c = {
-        "last_post1": blogs[0],
-        "last_post2": blogs[1],
-        "last_post3": blogs[2],
-        "last_post4": blogs[3],
-        "last_post5": blogs[4],
-        "last_post6": blogs[5],
+        "last_post_page1": [x for x in blogs[0:3]],
+        "last_post_page2": [x for x in blogs[3:6]],
     }
     return c

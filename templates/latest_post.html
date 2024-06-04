@@ -11,40 +11,34 @@
       <ul>
         <li id="slide1">
           <div class="row">
+            {% for post in last_post_page1 %}
             <span class="col-3">
-              <img src="{{last_post1.image.url}}" />
-              <h2><a href={% url "blog_detail" title=last_post1.title %}>{{last_post1.title}}</a></h2>
-              <p>{{last_post1.content|truncatewords:20}}</p>
+              <img src="{{post.image.url}}" />
+              <h2><a href={% url "blog_detail" title=post.title %}>{{post.title}}</a></h2>
+              <br>
+              <p>{{post.category}}</p>
+              <br>
+              <p>{{post.content|truncatewords:20}}</p>
+              <br>
+              <p>{{post.date_published}}</p>
             </span>
-            <span class="col-3">
-              <img src="{{last_post2.image.url}}" />
-              <h2><a href={% url "blog_detail" title=last_post2.title %}>{{last_post2.title}}</a></h2>
-              <p>{{last_post2.content|truncatewords:20}}</p>
-            </span>
-            <span class="col-3">
-              <img src="{{last_post3.image.url}}" />
-              <h2><a href={% url "blog_detail" title=last_post3.title %}>{{last_post3.title}}</a></h2>
-              <p>{{last_post3.content|truncatewords:20}}</p>
-            </span>
+            {% endfor %}
           </div>
         </li>
         <li id="slide2">
           <div class="row">
+            {% for post in last_post_page2 %}
             <span class="col-3">
-              <img src="{{last_post4.image.url}}" />
-              <h2><a href={% url "blog_detail" title=last_post4.title %}>{{last_post4.title}}</a></h2>
-              <p>{{last_post4.content|truncatewords:20}}</p>
+              <img src="{{post.image.url}}" />
+              <h2><a href={% url "blog_detail" title=post.title %}>{{post.title}}</a></h2>
+              <br>
+              <p>{{post.category}}</p>
+              <br>
+              <p>{{post.content|truncatewords:20}}</p>
+              <br>
+              <p>{{post.date_published}}</p>
             </span>
-            <span class="col-3">
-              <img src="{{last_post5.image.url}}" />
-              <h2><a href={% url "blog_detail" title=last_post5.title %}>{{last_post5.title}}</a></h2>
-              <p>{{last_post5.content|truncatewords:20}}</p>
-            </span>
-            <span class="col-3">
-              <img src="{{last_post6.image.url}}" />
-              <h2><a href={% url "blog_detail" title=last_post6.title %}>{{last_post6.title}}</a></h2>
-              <p>{{last_post6.content|truncatewords:20}}</p>
-            </span>
+            {% endfor %}
           </div>
         </li>
       </ul>

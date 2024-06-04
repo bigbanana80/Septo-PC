@@ -32,10 +32,14 @@
 #slideshow-wrap a {
   color: white;
 }
+#slideshow-wrap img {
+  width: 300px;
+  height: 200px;
+}
 
 #slideshow-inner {
   width: 100%;
-  height: 100%;
+  height: 482px;
   background-color: rgb(0, 0, 0);
   overflow: hidden;
   position: relative;
@@ -63,7 +67,7 @@
 
 #slideshow-inner > ul > li > img {
   margin: auto;
-  height: 100%;
+  height: 472px;
 }
 
 #slideshow-wrap input[type="radio"] {
