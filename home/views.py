@@ -2,6 +2,7 @@ from django.shortcuts import render, HttpResponse, get_object_or_404
 from . import package, models, forms
 from django.utils import timezone
 from django.core.paginator import Paginator
+from django.contrib import messages
 
 
 # Create your views here.
@@ -29,7 +30,17 @@ def contact(request):
     if request.method == "POST":
         form = forms.ContactForm(request.POST)
         if form.is_valid():
-            form.save()
+            p = form.save(commit=False)
+            # if p.name == "":
+            #     p.name = "Unknown"
+            p.name = "Unknown"
+            p.save()
+            messages.add_message(
+                request, messages.SUCCESS, "ticket sended successfully ! "
+            )
+        else:
+            messages.add_message(request, messages.ERROR, "Error, pls try again  ! ")
+
     form = forms.ContactForm()
     return render(request, "contact.html", {"form": form})
 
