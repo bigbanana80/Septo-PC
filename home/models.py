@@ -24,3 +24,10 @@ class blog(models.Model):
 
     def __str__(self) -> str:
         return self.title
+
+
+class contact(models.Model):
+    name = models.CharField(max_length=255, blank=True)
+    email = models.EmailField(max_length=255, blank=False)
+    subject = models.CharField(max_length=255, blank=True)
+    message = models.TextField(blank=False)

@@ -1,5 +1,5 @@
 from django.shortcuts import render, HttpResponse, get_object_or_404
-from . import package, models
+from . import package, models, forms
 from django.utils import timezone
 from django.core.paginator import Paginator
 
@@ -26,7 +26,12 @@ def about(request):
 
 
 def contact(request):
-    return render(request, "contact.html")
+    if request.method == "POST":
+        form = forms.ContactForm(request.POST)
+        if form.is_valid():
+            form.save()
+    form = forms.ContactForm()
+    return render(request, "contact.html", {"form": form})
 
 
 def blog(request):
