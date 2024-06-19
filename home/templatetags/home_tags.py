@@ -7,7 +7,7 @@ from django.utils import timezone
 register = template.Library()
 
 
-@register.inclusion_tag("latest_post.html")
+@register.inclusion_tag("home/latest_post.html")
 def latest_post():
     blogs = blog.objects.filter(publish_date__lte=timezone.now(), status=True).order_by(
         "-publish_date"

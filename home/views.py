@@ -7,23 +7,23 @@ from django.contrib import messages
 
 # Create your views here.
 def index(request):
-    return render(request, "index.html")
+    return render(request, "home/index.html")
 
 
 def cart(request):
-    return render(request, "cart.html")
+    return render(request, "home/cart.html")
 
 
 def account(request):
-    return render(request, "account.html")
+    return render(request, "home/account.html")
 
 
 def products(request):
-    return render(request, "products.html")
+    return render(request, "home/products.html")
 
 
 def about(request):
-    return render(request, "about.html")
+    return render(request, "home/about.html")
 
 
 def contact(request):
@@ -42,7 +42,7 @@ def contact(request):
             messages.add_message(request, messages.ERROR, "Error, pls try again  ! ")
 
     form = forms.ContactForm()
-    return render(request, "contact.html", {"form": form})
+    return render(request, "home/contact.html", {"form": form})
 
 
 def blog(request):
@@ -57,7 +57,7 @@ def blog(request):
         "page_obj": page_obj,
         "page_num": page_num,
     }
-    return render(request, "blog.html", context=context)
+    return render(request, "home/blog.html", context=context)
 
 
 def blog_detail(request, title):
@@ -86,4 +86,4 @@ def blog_detail(request, title):
         "next": next_blog,
         "prev": prev_blog,
     }
-    return render(request, "blog_detail.html", context=context)
+    return render(request, "home/blog_detail.html", context=context)
