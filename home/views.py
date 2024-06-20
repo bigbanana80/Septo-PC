@@ -31,8 +31,6 @@ def contact(request):
         form = forms.ContactForm(request.POST)
         if form.is_valid():
             p = form.save(commit=False)
-            # if p.name == "":
-            #     p.name = "Unknown"
             p.name = "Unknown"
             p.save()
             messages.add_message(
