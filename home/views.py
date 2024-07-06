@@ -3,7 +3,7 @@ from . import package, models, forms
 from django.utils import timezone
 from django.core.paginator import Paginator
 from django.contrib import messages
-
+from django.contrib.auth import forms
 
 # Create your views here.
 def index(request):
@@ -15,7 +15,8 @@ def cart(request):
 
 
 def account(request):
-    return render(request, "home/account.html")
+    account_form = forms.AuthenticationForm()
+    return render(request, "home/account.html" , {"account_form":account_form})
 
 
 def products(request):
