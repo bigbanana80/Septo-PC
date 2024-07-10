@@ -1,5 +1,14 @@
 {% extends "home/base.html" %} {% load static %} {% block content %}
 <!-- Account Page -->
-{{ account_form }}
-
+<form method="post" action="">
+    {% csrf_token %}
+    {{ account_form }}
+    <button type="submit">Create Account</button>
+</form>
+<br>
+<div>
+    <p>
+        Already have an account? <a href="" style="color: blue;">Sign in here</a>
+    </p>   
+</div>
 {% endblock content %}
