@@ -31,3 +31,8 @@ class contact(models.Model):
     email = models.EmailField(max_length=255, blank=False)
     subject = models.CharField(max_length=255, blank=True)
     message = models.TextField(blank=False)
+
+class user(models.Model):
+    username = models.CharField(max_length=255, blank=True)
+    email = models.EmailField(max_length=255,blank=False)
+    password = models.CharField(max_length=255,blank=False)

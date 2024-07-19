@@ -15,3 +15,4 @@ class contact(admin.ModelAdmin):
 # Register your models here.
 admin.site.register(models.blog, blog)
 admin.site.register(models.contact, contact)
+admin.site.register(models.user)

@@ -1,9 +1,9 @@
-from django.shortcuts import render, HttpResponse, get_object_or_404
+from django.shortcuts import render, HttpResponse, get_object_or_404 , redirect
 from . import package, models, forms
 from django.utils import timezone
 from django.core.paginator import Paginator
 from django.contrib import messages
-from django.contrib.auth import forms , authenticate , login, logout
+from django.contrib.auth import forms , authenticate , login, logout 
 
 # Create your views here.
 def index(request):
@@ -22,12 +22,36 @@ def account(request):
     return render(request, "home/account.html" , {"is_auth": is_auth})
 
 def sign_in(request):
+    if request.method == "POST":
+        form = forms.AuthenticationForm(request=request , data = request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get("username") 
+            password = form.cleaned_data.get("password") 
+            user = authenticate(username, password)
+            if user is not None:
+                login(request,user)
+                return redirect("/")
+            else:
+                return HttpResponse("User does not exist please make a new account.")
+        else:
+            return HttpResponse("Invalid request")
     return render(request, "accounts/sign_in.html")
 
 def sign_out(request):
     return render(request, "accounts/sign_out.html")
 
 def sign_up(request):
+    if request.method == "POST":
+        form = forms.UserCreationForm(request.POST)
+        if form.is_valid():
+            user = models.user()
+            user.username = form.cleaned_data.get("username")
+            user.email = form.cleaned_data.get("email")
+            user.password = form.cleaned_data.get("password")
+            user.save()
+            return redirect("/")
+        else:
+            return HttpResponse("Invalid data")
     return render(request, "accounts/sign_up.html")
 
 def products(request):
