@@ -22,13 +22,13 @@ def account(request):
     return render(request, "home/account.html" , {"is_auth": is_auth})
 
 def login(request):
-    return render(request, "account/login")
+    return render(request, "accounts/login.html")
 
 def logout(request):
-    return render(request, "account/login")
+    return render(request, "accounts/logout.html")
 
 def sign_up(request):
-    return render(request, "account/login")
+    return render(request, "accounts/sign_up.html")
 
 def products(request):
     return render(request, "home/products.html")

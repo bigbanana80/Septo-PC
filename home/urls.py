@@ -13,4 +13,7 @@ urlpatterns = [
     path("contact", views.contact, name="contact"),
     path("blog", views.blog, name="blog"),
     path("blog/<title>", views.blog_detail, name="blog_detail"),
+    path("login", views.login, name="login"),
+    path("logout", views.logout, name="logout"),
+    path("sign_up", views.sign_up, name="sign_up"),
 ]
