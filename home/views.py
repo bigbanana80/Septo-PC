@@ -15,11 +15,20 @@ def cart(request):
 
 
 def account(request):
-    
-    account_form = forms.UserCreationForm()
-    
-    return render(request, "home/account.html" , {"account_form":account_form})
+    if request.user.is_authenticated and not request.user.is_superuser:
+        is_auth = True
+    else:
+        is_auth = False
+    return render(request, "home/account.html" , {"is_auth": is_auth})
 
+def login(request):
+    return render(request, "account/login")
+
+def logout(request):
+    return render(request, "account/login")
+
+def sign_up(request):
+    return render(request, "account/login")
 
 def products(request):
     return render(request, "home/products.html")
