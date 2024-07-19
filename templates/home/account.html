@@ -1,8 +1,8 @@
 {% load static %} {% block content %}
 {% if is_auth %}
-  <p>Already logged in do you want to <a href={% url "logout" %}>log out</a></p>
+  <p>Already logged in do you want to <a href={% url "sign_out" %}>log out</a></p>
   <p>if not click <a href={% url "home" %}>here</a> to go back to homePage</p>
-{% endif %}
+{% else %}
 <!-- Account Page -->
 <link rel="stylesheet" href={% static "css/account.css" %}>
 <h2>Weekly Coding Challenge #1: Sign in/up Form</h2>
@@ -23,7 +23,7 @@
 		</form>
 	</div>
 	<div class="form-container sign-in-container">
-		<form action={% url "login" %}>
+		<form action={% url "sign_in" %}>
 			<h1>Sign in</h1>
 			<div class="social-container">
 				<a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
@@ -64,4 +64,5 @@
         container.classList.remove("right-panel-active");
     });</script>
 
+{% endif %}
 {% endblock content %}

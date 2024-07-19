@@ -21,11 +21,11 @@ def account(request):
         is_auth = False
     return render(request, "home/account.html" , {"is_auth": is_auth})
 
-def login(request):
-    return render(request, "accounts/login.html")
+def sign_in(request):
+    return render(request, "accounts/sign_in.html")
 
-def logout(request):
-    return render(request, "accounts/logout.html")
+def sign_out(request):
+    return render(request, "accounts/sign_out.html")
 
 def sign_up(request):
     return render(request, "accounts/sign_up.html")
