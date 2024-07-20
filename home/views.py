@@ -5,6 +5,7 @@ from django.utils import timezone
 from django.core.paginator import Paginator
 from django.contrib import messages
 from django.contrib.auth import forms , authenticate , login, logout 
+from django.contrib.auth.models import User
 
 # Create your views here.
 def index(request):
@@ -20,15 +21,16 @@ def account(request):
         is_auth = True
     else:
         is_auth = False
-    return render(request, "home/account.html" , {"is_auth": is_auth})
+    form = f.RegisterForm()
+    return render(request, "home/account.html" , {"is_auth": is_auth , "form": form})
 
 def sign_in(request):
     if request.method == "POST":
-        form = forms.AuthenticationForm(request=request , data = request.POST)
+        form = f.UserForm(request.POST)
         if form.is_valid():
-            username = form.cleaned_data.get("username") 
+            email = form.cleaned_data.get("email") 
             password = form.cleaned_data.get("password") 
-            user = authenticate(username, password)
+            user = authenticate(request=request,email=email,password=password)
             if user is not None:
                 login(request,user)
                 return redirect("/")
@@ -43,12 +45,15 @@ def sign_out(request):
 
 def sign_up(request):
     if request.method == "POST":
-        form = f.UserForm(request.POST)
+        form = forms.UserCreationForm(request.POST)
         if form.is_valid():
-            user = models.user()
-            user.username = form.cleaned_data.get("username")
-            user.email = form.cleaned_data.get("email")
-            user.password = form.cleaned_data.get("password")
+            print("Was Valid")
+            username = form.cleaned_data.get("username")
+            print(username)
+            #fullname = form.fields.get("fullname")
+            email = form.cleaned_data.get("email")
+            password =form.cleaned_data.get("password1")
+            user = User.objects.create_user(username=username,email=email,password=password) 
             user.save()
             return redirect("/")
         else:
