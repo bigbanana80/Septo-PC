@@ -1,5 +1,6 @@
 from django.shortcuts import render, HttpResponse, get_object_or_404 , redirect
-from . import package, models, forms
+from . import package, models
+from . import forms as f
 from django.utils import timezone
 from django.core.paginator import Paginator
 from django.contrib import messages
@@ -42,7 +43,7 @@ def sign_out(request):
 
 def sign_up(request):
     if request.method == "POST":
-        form = forms.UserCreationForm(request.POST)
+        form = f.UserForm(request.POST)
         if form.is_valid():
             user = models.user()
             user.username = form.cleaned_data.get("username")
@@ -64,7 +65,7 @@ def about(request):
 
 def contact(request):
     if request.method == "POST":
-        form = forms.ContactForm(request.POST)
+        form = f.ContactForm(request.POST)
         if form.is_valid():
             p = form.save(commit=False)
             p.name = "Unknown"
@@ -75,7 +76,7 @@ def contact(request):
         else:
             messages.add_message(request, messages.ERROR, "Error, pls try again  ! ")
 
-    form = forms.ContactForm()
+    form = f.ContactForm()
     return render(request, "home/contact.html", {"form": form})
 
 
