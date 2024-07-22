@@ -26,16 +26,12 @@ def account(request):
 
 def sign_in(request):
     if request.method == "POST":
-        form = f.UserForm(request.POST)
-        if form.is_valid():
-            email = form.cleaned_data.get("email") 
-            password = form.cleaned_data.get("password") 
-            user = authenticate(request=request,email=email,password=password)
-            if user is not None:
-                login(request,user)
-                return redirect("/")
-            else:
-                return HttpResponse("User does not exist please make a new account.")
+        username = request.POST["username"]
+        password=request.POST["password"]
+        user = authenticate(username=username,password=password)
+        if user is not None:
+            login(request , user)
+            redirect("/")
         else:
             return HttpResponse("Invalid request")
     return render(request, "accounts/sign_in.html")
