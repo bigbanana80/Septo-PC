@@ -29,7 +29,7 @@ def sign_in(request):
         username = request.POST["username"]
         password=request.POST["password"]
         user = authenticate(username=username,password=password)
-        if user is not None:
+        if user is not None and not user.is_superuser:
             login(request , user)
             redirect("/")
         else:
@@ -37,6 +37,7 @@ def sign_in(request):
     return render(request, "accounts/sign_in.html")
 
 def sign_out(request):
+    logout(request)
     return render(request, "accounts/sign_out.html")
 
 def sign_up(request):
