@@ -15,7 +15,6 @@ class UserForm(forms.ModelForm):
 class RegisterForm(UserCreationForm):
     username = forms.CharField(label=("Username"),help_text="")
     email = forms.EmailField(label = "Email" , help_text="")
-    #fullname = forms.CharField(label = "Full Name", help_text="")
     password1 = forms.CharField(label = "Password",help_text="",widget=forms.PasswordInput)
     password2 = forms.CharField(label = "Confirm Password",help_text="",widget=forms.PasswordInput)
 

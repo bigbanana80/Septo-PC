@@ -33,7 +33,13 @@ def sign_in(request):
             login(request , user)
             redirect("/")
         else:
-            return HttpResponse("Invalid request")
+            username = User.objects.get(email=username)
+            user = authenticate(username=username,password=password)
+            if user is not None and not user.is_superuser:
+                login(request , user) 
+                redirect("/")
+            else:
+                return HttpResponse("Error 405")
     return render(request, "accounts/sign_in.html")
 
 def sign_out(request):
@@ -44,18 +50,16 @@ def sign_up(request):
     if request.method == "POST":
         form = forms.UserCreationForm(request.POST)
         if form.is_valid():
-            print("Was Valid")
             username = form.cleaned_data.get("username")
-            print(username)
-            #fullname = form.fields.get("fullname")
-            email = form.cleaned_data.get("email")
+            email = request.POST["email"]
             password =form.cleaned_data.get("password1")
-            user = User.objects.create_user(username=username,email=email,password=password) 
+            user = User.objects.create_user(username=username,email=email,password=password)
+            print(email) 
             user.save()
-            return redirect("/")
+            return render(request, "accounts/sign_up.html")
         else:
             return HttpResponse("Invalid data")
-    return render(request, "accounts/sign_up.html")
+    return HttpResponse("Error")
 
 def products(request):
     return render(request, "home/products.html")
