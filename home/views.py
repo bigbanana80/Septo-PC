@@ -61,6 +61,12 @@ def sign_up(request):
             return HttpResponse("Invalid data")
     return HttpResponse("Error")
 
+def forget_password(request):
+    if request.method == "POST":
+        return HttpResponse("we shall email you soon")
+    form = f.ForgetPasswordForm()
+    return render(request , "accounts/forget_password.html" , {"form":form})
+
 def products(request):
     return render(request, "home/products.html")
 

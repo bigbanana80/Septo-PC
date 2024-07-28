@@ -1,6 +1,6 @@
 from django import forms
 from .models import contact , user
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm ,PasswordResetForm
 from django.contrib.auth.models import User
 class ContactForm(forms.ModelForm):
     class Meta:
@@ -21,3 +21,12 @@ class RegisterForm(UserCreationForm):
     class Meta:
         model = User
         fields = ("username","email","password1" , "password2" )    
+        
+        
+class ForgetPasswordForm(PasswordResetForm):
+    username = forms.CharField(label="Username")
+    email = forms.EmailField(label="Email")
+    
+    class Meta:
+        model = User
+        fields = ("username" , "email")
