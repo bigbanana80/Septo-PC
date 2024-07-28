@@ -63,10 +63,32 @@ def sign_up(request):
 
 def forget_password(request):
     if request.method == "POST":
-        return HttpResponse("we shall email you soon")
+        form = f.ForgetPasswordForm(request.POST)
+        if form.is_valid():
+            username = request.POST["username"]
+            email = request.POST["email"]
+            user = User.objects.get(username=username,email=email)
+            if user is not None:
+                form  = f.ResetPasswordForm()
+                return render(request, "accounts/reset_password.html" , {"form":form})
+            
     form = f.ForgetPasswordForm()
     return render(request , "accounts/forget_password.html" , {"form":form})
 
+def reset_password_result(request):
+    if request.method == "POST":
+        form = f.ResetPasswordForm(request.POST)
+        if form.is_valid():
+            email = request.POST["email"]
+            password1 = form.cleaned_data["password1"]
+            password2 = form.cleaned_data["password2"]
+            user = User.objects.get(email=email)
+            if user is not None and password1 == password2 and not user.is_superuser:
+                user.set_password(password1)
+                user.save()
+                return redirect("/")
+    else:
+        return HttpResponse("Error 405")
 def products(request):
     return render(request, "home/products.html")
 

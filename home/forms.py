@@ -30,3 +30,10 @@ class ForgetPasswordForm(PasswordResetForm):
     class Meta:
         model = User
         fields = ("username" , "email")
+        
+class ResetPasswordForm(PasswordResetForm):
+    password1 = forms.CharField(label="New Password", widget=forms.PasswordInput)
+    password2 = forms.CharField(label="Confirm New Password", widget=forms.PasswordInput)
+    class Meta:
+        model = User
+        fields = ("password1" , "password2")
