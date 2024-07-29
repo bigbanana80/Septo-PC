@@ -1,6 +1,6 @@
 {% load static %} {% block content %}
 {% if is_auth %}
-  <p>Already logged in do you want to <a href={% url "sign_out" %}>log out</a></p>
+  <p>Already logged as {{request.user.username}} in do you want to <a href={% url "sign_out" %}>log out</a></p>
   <p>if not click <a href={% url "home" %}>here</a> to go back to homePage</p>
 {% else %}
 <!-- Account Page -->
@@ -27,7 +27,7 @@
 			<span>or use your account</span>
 			<input type="text" placeholder="username or email" name="username"/>
 			<input type="password" placeholder="Password" name="password"/>
-			<a href={% url "forget_password" %}>Forgot your password?</a>
+			<a href={% url "password-reset" %}>Forgot your password?</a>
 			<button type="submit">Sign In</button>
 		</form>
 	</div>
@@ -46,6 +46,9 @@
 		</div>
 	</div>
 </div>
+{% if ObjectDoesNotExist %}
+  <p>Wrong username or password</p>
+{% endif %}
 <script>const signUpButton = document.getElementById('signUp');
     const signInButton = document.getElementById('signIn');
     const container = document.getElementById('container');

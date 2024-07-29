@@ -24,12 +24,11 @@ class RegisterForm(UserCreationForm):
         
         
 class ForgetPasswordForm(PasswordResetForm):
-    username = forms.CharField(label="Username")
     email = forms.EmailField(label="Email")
     
     class Meta:
         model = User
-        fields = ("username" , "email")
+        fields = ("email")
         
 class ResetPasswordForm(PasswordResetForm):
     password1 = forms.CharField(label="New Password", widget=forms.PasswordInput)

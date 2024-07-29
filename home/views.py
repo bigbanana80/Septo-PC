@@ -1,11 +1,14 @@
 from django.shortcuts import render, HttpResponse, get_object_or_404 , redirect
 from . import package, models
 from . import forms as f
+from django.core.exceptions import ObjectDoesNotExist
 from django.utils import timezone
 from django.core.paginator import Paginator
 from django.contrib import messages
 from django.contrib.auth import forms , authenticate , login, logout 
 from django.contrib.auth.models import User
+from django.contrib.auth.views import PasswordResetView
+from django.core.mail import send_mail
 
 # Create your views here.
 def index(request):
@@ -33,13 +36,16 @@ def sign_in(request):
             login(request , user)
             redirect("/")
         else:
-            username = User.objects.get(email=username)
-            user = authenticate(username=username,password=password)
-            if user is not None and not user.is_superuser:
-                login(request , user) 
-                redirect("/")
-            else:
-                return HttpResponse("Error 405")
+            try:
+                username = User.objects.get(email=username)
+                user = authenticate(username=username,password=password)
+                if user is not None and not user.is_superuser:
+                    login(request , user) 
+                    redirect("/")
+                else:
+                    return HttpResponse("Error 405")
+            except ObjectDoesNotExist:
+                return render(request , "home/account.html" , {"ObjectDoesNotExist" : True})
     return render(request, "accounts/sign_in.html")
 
 def sign_out(request):
@@ -65,12 +71,17 @@ def forget_password(request):
     if request.method == "POST":
         form = f.ForgetPasswordForm(request.POST)
         if form.is_valid():
-            username = request.POST["username"]
             email = request.POST["email"]
-            user = User.objects.get(username=username,email=email)
+            user = User.objects.get(email=email)
             if user is not None:
-                form  = f.ResetPasswordForm()
-                return render(request, "accounts/reset_password.html" , {"form":form})
+                send_mail(
+                    'Reset password',
+                    f'{PasswordResetView.as_view()}',
+                    'me@example.com',
+                    [user.email],
+                    fail_silently=False,
+                )
+                return HttpResponse("Please check out the email( for now check out the console)")
             
     form = f.ForgetPasswordForm()
     return render(request , "accounts/forget_password.html" , {"form":form})
