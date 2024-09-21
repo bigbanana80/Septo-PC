@@ -11,6 +11,11 @@ from django.contrib.auth.views import PasswordResetView
 from django.core.mail import send_mail
 
 # Create your views here.
+
+def not_available(request):
+    return HttpResponse("<h1>Coming soon !</h1>\n<p>This website will be available soon, stay tuned !!!</p>")
+
+
 def index(request):
     return render(request, "home/index.html")
 
