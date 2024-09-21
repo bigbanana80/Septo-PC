@@ -1,0 +1,9 @@
+asgiref
+Django
+django-environ
+djangorestframework
+pillow
+python-decouple
+sqlparse
+tzdata
+urllib3
