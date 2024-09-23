@@ -7,14 +7,17 @@ from decouple import config
 
 SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True 
+DEBUG = False 
 
-ALLOWED_HOSTS = []
-STATICFILES_DIRS = [
-    BASE_DIR / "static",
-]
+ALLOWED_HOSTS = ['septu-pc-110.ir' , 'www.septu-pc-110.ir']
+
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+
 STATIC_ROOT = '/home/septupci/public_html/static'
 MEDIA_ROOT = '/home/septupci/public_html/media'
+# STATICFILES_DIRS = [
+#     BASE_DIR / "static",
+# ]
 
 CSRF_COOKIE_SECURE = True
 
