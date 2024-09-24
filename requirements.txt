@@ -7,3 +7,4 @@ python-decouple
 sqlparse
 tzdata
 urllib3
+whitenoise
