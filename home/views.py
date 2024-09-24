@@ -1,19 +1,23 @@
-from django.shortcuts import render, HttpResponse, get_object_or_404 , redirect
+from django.shortcuts import render, HttpResponse, get_object_or_404, redirect
 from . import package, models
 from . import forms as f
 from django.core.exceptions import ObjectDoesNotExist
 from django.utils import timezone
 from django.core.paginator import Paginator
 from django.contrib import messages
-from django.contrib.auth import forms , authenticate , login, logout 
+from django.contrib.auth import forms, authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.views import PasswordResetView
 from django.core.mail import send_mail
 
 # Create your views here.
 
+
 def not_available(request):
-    return HttpResponse("<h1>Coming soon !</h1>\n<p>This website will be available soon, stay tuned !!!</p>")
+    return HttpResponse(
+        "<h1>Coming soon !</h1>\n<p>This website will be available soon, stay tuned !!!</p>"
+    )
+
 
 def index(request):
     return render(request, "home/index.html")
@@ -29,32 +33,37 @@ def account(request):
     else:
         is_auth = False
     form = f.RegisterForm()
-    return render(request, "home/account.html" , {"is_auth": is_auth , "form": form})
+    return render(request, "home/account.html", {"is_auth": is_auth, "form": form})
+
 
 def sign_in(request):
     if request.method == "POST":
         username = request.POST["username"]
-        password=request.POST["password"]
-        user = authenticate(username=username,password=password)
+        password = request.POST["password"]
+        user = authenticate(username=username, password=password)
         if user is not None and not user.is_superuser:
-            login(request , user)
+            login(request, user)
             redirect("/")
         else:
             try:
                 username = User.objects.get(email=username)
-                user = authenticate(username=username,password=password)
+                user = authenticate(username=username, password=password)
                 if user is not None and not user.is_superuser:
-                    login(request , user) 
+                    login(request, user)
                     redirect("/")
                 else:
                     return HttpResponse("Error 405")
             except ObjectDoesNotExist:
-                return render(request , "home/account.html" , {"ObjectDoesNotExist" : True})
+                return render(
+                    request, "home/account.html", {"ObjectDoesNotExist": True}
+                )
     return render(request, "accounts/sign_in.html")
+
 
 def sign_out(request):
     logout(request)
     return render(request, "accounts/sign_out.html")
+
 
 def sign_up(request):
     if request.method == "POST":
@@ -62,14 +71,32 @@ def sign_up(request):
         if form.is_valid():
             username = form.cleaned_data.get("username")
             email = request.POST["email"]
-            password =form.cleaned_data.get("password1")
-            user = User.objects.create_user(username=username,email=email,password=password)
-            print(email) 
+            password = form.cleaned_data.get("password1")
+            try:
+                temp = User.objects.get(username = request.POST["username"])
+                return render(
+                        request, "accounts/sign_up.html", {"UserExist": True}
+                    )
+            except:
+                pass
+            try:
+                temp = User.objects.get(email = str(email))
+                return render(
+                        request, "accounts/sign_up.html", {"EmailExist": True}
+                    )
+            except:
+                pass
+            user = User.objects.create_user(
+                username=username, email=email, password=password
+            )
             user.save()
-            return render(request, "accounts/sign_up.html")
+            return render(request, "accounts/sign_up.html" , {"SignUpSuccess": True})
         else:
-            return HttpResponse("Invalid data")
-    return HttpResponse("Error")
+            return render(
+                request, "accounts/sign_up.html", {"WrongPassword": True}
+            )
+    return HttpResponse("Unknown Error please contact the support.")
+
 
 def forget_password(request):
     if request.method == "POST":
@@ -79,16 +106,19 @@ def forget_password(request):
             user = User.objects.get(email=email)
             if user is not None:
                 send_mail(
-                    'Reset password',
-                    f'{PasswordResetView.as_view()}',
-                    'me@example.com',
+                    "Reset password",
+                    f"{PasswordResetView.as_view()}",
+                    "sepehra90@yahoo.com",
                     [user.email],
                     fail_silently=False,
                 )
-                return HttpResponse("Please check out the email( for now check out the console)")
-            
+                return HttpResponse(
+                    "Please check out the email( for now check out the console)"
+                )
+
     form = f.ForgetPasswordForm()
-    return render(request , "accounts/forget_password.html" , {"form":form})
+    return render(request, "accounts/forget_password.html", {"form": form})
+
 
 def reset_password_result(request):
     if request.method == "POST":
@@ -104,6 +134,8 @@ def reset_password_result(request):
                 return redirect("/")
     else:
         return HttpResponse("Error 405")
+
+
 def products(request):
     return render(request, "home/products.html")
 

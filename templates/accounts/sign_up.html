@@ -2,10 +2,21 @@
 
 <script>
     setTimeout(function(){
-         window.location.href = "/";
-      }, 3000);
+         window.location.href = "/account";
+      }, 10000);
 </script>
+{% if UserExist %}
+	<p>a User with the same Username Exist</p>
+{% elif EmailExist %}
+	<p>a User with the same Email Exist</p>
+{% elif SignUpSuccess %}
+	<p>Sign up successful you may now log in</p>
+{% elif WrongPassword %}
+    <h4>Invalid Data:</h4>
+	<p>1 . Invalid Password, Check if the password is valid (8 character minimum with numbers and signs and uppercase and lowercase letters)</p>
+    <p>2 . Username already exist, if the password is valid that means the Username already exists</p>
+{% else %}
 <p>sign_up successful redirecting ...</p>
-
+{% endif %}
 
 {% endblock content %}
