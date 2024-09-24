@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     # "whitenoise.runserver_nostatic",
     "django.contrib.staticfiles",
     "home",
+    "compressor",
 ]
 
 MIDDLEWARE = [
@@ -58,6 +59,13 @@ TEMPLATES = [
         },
     },
 ]
+
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    # other finders..
+    'compressor.finders.CompressorFinder',
+)
 
 WSGI_APPLICATION = "Septo_PC.wsgi.application"
 
