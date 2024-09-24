@@ -9,7 +9,7 @@ from django.contrib.auth import forms, authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.views import PasswordResetView
 from django.core.mail import send_mail
-
+from Septo_PC.settings import EMAIL_HOST_USER , EMAIL_HOST_PASSWORD
 # Create your views here.
 
 
@@ -108,9 +108,11 @@ def forget_password(request):
                 send_mail(
                     "Reset password",
                     f"{PasswordResetView.as_view()}",
-                    "sepehra90@yahoo.com",
+                    EMAIL_HOST_USER,
                     [user.email],
                     fail_silently=False,
+                    auth_user=EMAIL_HOST_USER,
+                    auth_password=EMAIL_HOST_PASSWORD
                 )
                 return HttpResponse(
                     "Please check out the email( for now check out the console)"
