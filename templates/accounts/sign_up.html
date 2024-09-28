@@ -3,7 +3,7 @@
 <script>
     setTimeout(function(){
          window.location.href = "/account";
-      }, 10000);
+      }, 5000);
 </script>
 {% if UserExist %}
 	<p>a User with the same Username Exist</p>
@@ -15,6 +15,8 @@
     <h4>Invalid Data:</h4>
 	<p>1 . Invalid Password, Check if the password is valid (8 character minimum with numbers and signs and uppercase and lowercase letters)</p>
     <p>2 . Username already exist, if the password is valid that means the Username already exists</p>
+{% elif FailCaptcha %}
+    <p>Please solve the captcha correctly.</p>
 {% else %}
 <p>sign_up successful redirecting ...</p>
 {% endif %}

@@ -54,30 +54,45 @@ def account(request):
         is_auth = True
     else:
         is_auth = False
-    form = f.RegisterForm()
-    return render(request, "home/account.html", {"is_auth": is_auth, "form": form})
+    sign_up_form = f.RegisterForm()
+    login_form = f.LoginForm()
+    return render(request, "home/account.html", {"is_auth": is_auth, "form": sign_up_form , "login":login_form})
 
 
 def sign_in(request):
     if request.method == "POST":
-        username = request.POST["username"]
-        password = request.POST["password"]
-        user = authenticate(username=username, password=password)
-        if user is not None and not user.is_superuser:
-            login(request, user)
-            redirect("/")
-        else:
+        form = f.LoginForm(request.POST , request.FILES)
+        if form.is_valid():
+            username = form.cleaned_data.get("text")
+            password = form.cleaned_data.get("password1")
             try:
-                username = User.objects.get(email=username)
-                user = authenticate(username=username, password=password)
-                if user is not None and not user.is_superuser:
-                    login(request, user)
-                    redirect("/")
-                else:
-                    return HttpResponse("Error 405")
-            except ObjectDoesNotExist:
+                try:
+                    user = authenticate(username=username, password=password)
+                except:
+                    user = authenticate(email=username,password=password)
+            except:
                 return render(
-                    request, "home/account.html", {"ObjectDoesNotExist": True}
+                        request, "home/account.html", {"ObjectDoesNotExist": True}
+                    )
+            if user is not None and not user.is_superuser:
+                login(request, user)
+                redirect("/")
+            else:
+                try:
+                    username = User.objects.get(email=username)
+                    user = authenticate(username=username, password=password)
+                    if user is not None and not user.is_superuser:
+                        login(request, user)
+                        redirect("/")
+                    else:
+                        return HttpResponse("Error 405")
+                except ObjectDoesNotExist:
+                    return render(
+                        request, "home/account.html", {"ObjectDoesNotExist": True}
+                    )
+        else:
+            return render(
+                    request, "accounts/sign_in.html", {"FailCaptcha": True}
                 )
     return render(request, "accounts/sign_in.html")
 
@@ -89,7 +104,12 @@ def sign_out(request):
 
 def sign_up(request):
     if request.method == "POST":
-        form = forms.UserCreationForm(request.POST)
+        form = f.RegisterForm(request.POST, request.FILES)
+        if form.is_valid():
+            pass
+        else:
+            return render(request, "accounts/sign_up.html", {"FailCaptcha": True})
+        form = forms.UserCreationForm(request.POST, request.FILES)
         if form.is_valid():
             username = form.cleaned_data.get("username")
             email = request.POST["email"]

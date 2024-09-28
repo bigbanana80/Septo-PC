@@ -1,10 +1,20 @@
 {% extends "home/base.html" %} {% load static %} {% block content %}
+
+{% if FailCaptcha %}
+<script>
+    setTimeout(function(){
+         window.location.href = "/account";
+      }, 3000);
+</script>
+<p>Please solve the captcha correctly.</p>
+{% else %}
 <script>
     setTimeout(function(){
          window.location.href = "/";
       }, 3000);
 </script>
-<p>login successful redirecting ...</p>
+    <p>login successful redirecting ...</p>
+{% endif %}
 
 
 {% endblock content %}

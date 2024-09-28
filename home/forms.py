@@ -2,6 +2,7 @@ from django import forms
 from .models import contact , user
 from django.contrib.auth.forms import UserCreationForm ,PasswordResetForm
 from django.contrib.auth.models import User
+from captcha.fields import CaptchaField
 class ContactForm(forms.ModelForm):
     class Meta:
         model = contact
@@ -12,11 +13,12 @@ class UserForm(forms.ModelForm):
         model = user
         fields = ("username", "email", "password",)
         
-class RegisterForm(UserCreationForm):
+class RegisterForm(forms.ModelForm):
     username = forms.CharField(label=("Username"),help_text="")
     email = forms.EmailField(label = "Email" , help_text="")
     password1 = forms.CharField(label = "Password",help_text="",widget=forms.PasswordInput)
     password2 = forms.CharField(label = "Confirm Password",help_text="",widget=forms.PasswordInput)
+    captcha = CaptchaField()
 
     class Meta:
         model = User
@@ -36,3 +38,13 @@ class ResetPasswordForm(PasswordResetForm):
     class Meta:
         model = User
         fields = ("password1" , "password2")
+        
+        
+class LoginForm(forms.ModelForm):
+    text = forms.CharField(label="Username or Email", widget=forms.TextInput)
+    password1 = forms.CharField(label="Password",widget=forms.PasswordInput)
+    captcha = CaptchaField()
+    
+    class Meta:
+        model = User
+        fields = ("text","password1")
