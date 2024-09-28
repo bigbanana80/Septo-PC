@@ -61,18 +61,15 @@ def account(request):
 
 def sign_in(request):
     if request.method == "POST":
-        form = f.LoginForm(request.POST , request.FILES)
-        if form.is_valid():
-            username = form.cleaned_data.get("text")
-            password = form.cleaned_data.get("password1")
+        form = f.LoginForm(request.POST)
+        if form.is_valid():    
+            username = form.cleaned_data["username"]
+            password = form.cleaned_data["password1"]
             try:
-                try:
-                    user = authenticate(username=username, password=password)
-                except:
-                    user = authenticate(email=username,password=password)
+                user = authenticate(username=username, password=password)
             except:
                 return render(
-                        request, "home/account.html", {"ObjectDoesNotExist": True}
+                        request, "accounts/sign_in.html", {"ObjectDoesNotExist": True}
                     )
             if user is not None and not user.is_superuser:
                 login(request, user)
@@ -88,7 +85,7 @@ def sign_in(request):
                         return HttpResponse("Error 405")
                 except ObjectDoesNotExist:
                     return render(
-                        request, "home/account.html", {"ObjectDoesNotExist": True}
+                        request, "accounts/sign_in.html", {"ObjectDoesNotExist": True}
                     )
         else:
             return render(

@@ -7,6 +7,13 @@
       }, 3000);
 </script>
 <p>Please solve the captcha correctly.</p>
+{% elif ObjectDoesNotExist %}
+<script>
+    setTimeout(function(){
+         window.location.href = "/account";
+      }, 3000);
+</script>
+<p>Wrong Username or Password</p>
 {% else %}
 <script>
     setTimeout(function(){

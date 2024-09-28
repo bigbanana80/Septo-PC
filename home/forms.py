@@ -40,11 +40,7 @@ class ResetPasswordForm(PasswordResetForm):
         fields = ("password1" , "password2")
         
         
-class LoginForm(forms.ModelForm):
-    text = forms.CharField(label="Username or Email", widget=forms.TextInput)
+class LoginForm(forms.Form):
+    username = forms.CharField(label="Username or Email")
     password1 = forms.CharField(label="Password",widget=forms.PasswordInput)
     captcha = CaptchaField()
-    
-    class Meta:
-        model = User
-        fields = ("text","password1")
