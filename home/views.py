@@ -36,9 +36,7 @@ def handler500(request, *args, **argv):
 
 
 def not_available(request):
-    return HttpResponse(
-        "<h1>Coming soon !</h1>\n<p>This website will be available soon, stay tuned !!!</p>"
-    )
+    return render(request, "home/not_available.html")
 
 
 def index(request):
@@ -56,21 +54,25 @@ def account(request):
         is_auth = False
     sign_up_form = f.RegisterForm()
     login_form = f.LoginForm()
-    return render(request, "home/account.html", {"is_auth": is_auth, "form": sign_up_form , "login":login_form})
+    return render(
+        request,
+        "home/account.html",
+        {"is_auth": is_auth, "form": sign_up_form, "login": login_form},
+    )
 
 
 def sign_in(request):
     if request.method == "POST":
         form = f.LoginForm(request.POST)
-        if form.is_valid():    
+        if form.is_valid():
             username = form.cleaned_data["username"]
             password = form.cleaned_data["password1"]
             try:
                 user = authenticate(username=username, password=password)
             except:
                 return render(
-                        request, "accounts/sign_in.html", {"ObjectDoesNotExist": True}
-                    )
+                    request, "accounts/sign_in.html", {"ObjectDoesNotExist": True}
+                )
             if user is not None and not user.is_superuser:
                 login(request, user)
                 redirect("/")
@@ -88,9 +90,7 @@ def sign_in(request):
                         request, "accounts/sign_in.html", {"ObjectDoesNotExist": True}
                     )
         else:
-            return render(
-                    request, "accounts/sign_in.html", {"FailCaptcha": True}
-                )
+            return render(request, "accounts/sign_in.html", {"FailCaptcha": True})
     return render(request, "accounts/sign_in.html")
 
 
