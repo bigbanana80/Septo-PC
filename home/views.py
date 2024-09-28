@@ -1,4 +1,10 @@
-from django.shortcuts import render, HttpResponse, get_object_or_404, redirect
+from django.shortcuts import (
+    render,
+    HttpResponse,
+    get_object_or_404,
+    redirect,
+)
+from django.template import RequestContext
 from . import package, models
 from . import forms as f
 from django.core.exceptions import ObjectDoesNotExist
@@ -9,7 +15,23 @@ from django.contrib.auth import forms, authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.views import PasswordResetView
 from django.core.mail import send_mail
-from Septo_PC.settings import EMAIL_HOST_USER , EMAIL_HOST_PASSWORD
+from Septo_PC.settings import EMAIL_HOST_USER, EMAIL_HOST_PASSWORD
+
+# responses
+
+
+def handler404(request, *args, **argv):
+    response = render(request, "404.html", {}, context=RequestContext(request))
+    response.status_code = 404
+    return response
+
+
+def handler500(request, *args, **argv):
+    response = render(request, "500.html", {}, context=RequestContext(request))
+    response.status_code = 500
+    return response
+
+
 # Create your views here.
 
 
@@ -73,28 +95,22 @@ def sign_up(request):
             email = request.POST["email"]
             password = form.cleaned_data.get("password1")
             try:
-                temp = User.objects.get(username = request.POST["username"])
-                return render(
-                        request, "accounts/sign_up.html", {"UserExist": True}
-                    )
+                temp = User.objects.get(username=request.POST["username"])
+                return render(request, "accounts/sign_up.html", {"UserExist": True})
             except:
                 pass
             try:
-                temp = User.objects.get(email = str(email))
-                return render(
-                        request, "accounts/sign_up.html", {"EmailExist": True}
-                    )
+                temp = User.objects.get(email=str(email))
+                return render(request, "accounts/sign_up.html", {"EmailExist": True})
             except:
                 pass
             user = User.objects.create_user(
                 username=username, email=email, password=password
             )
             user.save()
-            return render(request, "accounts/sign_up.html" , {"SignUpSuccess": True})
+            return render(request, "accounts/sign_up.html", {"SignUpSuccess": True})
         else:
-            return render(
-                request, "accounts/sign_up.html", {"WrongPassword": True}
-            )
+            return render(request, "accounts/sign_up.html", {"WrongPassword": True})
     return HttpResponse("Unknown Error please contact the support.")
 
 
@@ -112,7 +128,7 @@ def forget_password(request):
                     [user.email],
                     fail_silently=False,
                     auth_user=EMAIL_HOST_USER,
-                    auth_password=EMAIL_HOST_PASSWORD
+                    auth_password=EMAIL_HOST_PASSWORD,
                 )
                 return HttpResponse(
                     "Please check out the email( for now check out the console)"
