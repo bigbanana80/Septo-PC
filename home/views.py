@@ -46,7 +46,7 @@ def index(request):
 def cart(request):
     return render(request, "home/cart.html")
 
-@cache_page(60 * 15)
+
 def account(request):
     if request.user.is_authenticated and not request.user.is_superuser:
         is_auth = True
