@@ -1,0 +1,15 @@
+{% extends "home/base.html" %} {% load static %} {% block content %}
+<form  method="GET" action={% url "search_blog" %} >
+    <input  type="search" name="search" placeholder="Search Blogs"> 
+    <button  type="submit"> Search </button>
+</form>
+
+<h2>Search Results for "{{ query }}":</h2>
+<ul>
+    {% for blog in results %}
+        <li><a href="{{ blog.get_absolute_url }}" style="color: blue;">{{ blog.title }}</a></li>
+    {% empty %}
+        <li>No results found.</li>
+    {% endfor %}
+</ul>
+{% endblock content %}

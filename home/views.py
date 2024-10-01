@@ -247,3 +247,10 @@ def robots_txt(request):
         "Allow: /",
     ]
     return HttpResponse("\n".join(lines), content_type="text/plain")
+
+def search_blog(request):
+    query = request.GET.get('search')  # Get the search query from the URL
+    results = []
+    if query:
+        results = models.blog.objects.filter(title__icontains=query)  # Search in the title
+    return render(request, 'home/search_results.html', {'results': results, 'query': query})
