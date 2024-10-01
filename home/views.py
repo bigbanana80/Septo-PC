@@ -16,7 +16,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.views import PasswordResetView
 from django.core.mail import send_mail
 from Septo_PC.settings import EMAIL_HOST_USER, EMAIL_HOST_PASSWORD
-from django.views.decorators.cache import cache_page
+
 # responses
 
 
@@ -38,11 +38,11 @@ def handler500(request, *args, **argv):
 def not_available(request):
     return render(request, "home/not_available.html")
 
-@cache_page(60 * 15)
+
 def index(request):
     return render(request, "home/index.html")
 
-@cache_page(60 * 15)
+
 def cart(request):
     return render(request, "home/cart.html")
 
@@ -169,15 +169,15 @@ def reset_password_result(request):
     else:
         return HttpResponse("Error 405")
 
-@cache_page(60 * 15)
+
 def products(request):
     return render(request, "home/products.html")
 
-@cache_page(60 * 15)
+
 def about(request):
     return render(request, "home/about.html")
 
-@cache_page(60 * 15)
+
 def contact(request):
     if request.method == "POST":
         form = f.ContactForm(request.POST)
@@ -194,7 +194,7 @@ def contact(request):
     form = f.ContactForm()
     return render(request, "home/contact.html", {"form": form})
 
-@cache_page(60 * 15)
+
 def blog(request):
     blogs = models.blog.objects.filter(
         publish_date__lte=timezone.now(), status=True
@@ -209,7 +209,7 @@ def blog(request):
     }
     return render(request, "home/blog.html", context=context)
 
-@cache_page(60 * 15)
+
 def blog_detail(request, title):
     valid_blogs = models.blog.objects.filter(
         publish_date__lte=timezone.now(), status=True

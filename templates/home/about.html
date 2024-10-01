@@ -1,5 +1,47 @@
 {% extends "home/base.html" %} {% load static %} {% block content %}
+<style>
+    header {
+        background: #007BFF;
+        color: white;
+        padding: 10px 0;
+        text-align: center;
+    }
+    .warning {
+        background: #FFCC00;
+        color: #000;
+        font-weight: bold;
+        padding: 15px;
+        text-align: center;
+        margin: 20px 0;
+    }
+    .content {
+        background: white;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+</style>
+<header>
+    <h1>Welcome to Septu-PC!</h1>
+</header>
 
-<p>About page which is empty for now</p>
+<div class="warning">
+    ⚠️ WARNING: This is just a website made for practice and not a real store! ⚠️
+</div>
+
+<div class="content">
+    <h2>What We Offer:</h2>
+    <ul>
+        <li><strong>Wide Selection of Products:</strong> From high-performance gaming PCs to essential peripherals, our catalog includes a variety of items tailored for tech enthusiasts and casual users alike.</li>
+        <li><strong>User-Friendly Interface:</strong> Navigate through our well-organized categories with ease, making your shopping experience enjoyable and efficient.</li>
+        <li><strong>Detailed Product Descriptions:</strong> Each product page features comprehensive descriptions, specifications, and high-quality images to help you make informed decisions.</li>
+    </ul>
+
+    <h2>Our Learning Journey:</h2>
+    <p>This project has been a valuable learning experience, allowing us to apply concepts of web design, user experience, and eCommerce functionality. We hope you enjoy browsing through our practice site as much as we enjoyed creating it!</p>
+
+    <p>Thank you for visiting Septu-PC, and remember, this is just a practice website and not a real store!</p>
+</div>
+
 
 {% endblock content %}
