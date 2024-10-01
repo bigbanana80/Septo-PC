@@ -144,7 +144,6 @@ def forget_password(request):
                     EMAIL_HOST_USER,
                     [user.email],
                     fail_silently=False,
-                    auth_user=EMAIL_HOST_USER,
                     auth_password=EMAIL_HOST_PASSWORD,
                 )
                 return HttpResponse(
