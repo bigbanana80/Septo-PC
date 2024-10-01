@@ -1,7 +1,7 @@
 from django.db import models
 from datetime import datetime
 from django.utils import timezone
-
+from django.urls import reverse
 
 # Create your models here.
 class blog(models.Model):
@@ -22,6 +22,9 @@ class blog(models.Model):
     def is_past_due(self):
         return timezone.now() > self.date_published
 
+    def get_absolute_url(self):
+        return reverse('blog_detail', kwargs={'title': self.title})
+    
     def __str__(self) -> str:
         return self.title
 
